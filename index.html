@@ -37,7 +37,8 @@
             const p = document.createElement("p");
             p.classList.add(alignment);
             p.innerText = msg;
-            messages.appendChild(p);
+            messages.insertBefore(p, messages.firstChild);
+            // messages.appendChild(p);
         }
         
         const sendMessage = () => {
