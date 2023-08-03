@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
-
-let users = {};
-
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+
+let users = {};
+const port = process.env.PORT || 5000;
+
 
 app.use(express.static("."));
 
@@ -28,6 +29,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(5000, () => {
-  console.log("server is listening at port : 5000");
+server.listen(port, () => {
+  console.log(`server is listening at port : ${port}`);
 });

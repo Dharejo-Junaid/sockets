@@ -40,7 +40,6 @@ body {
 }
 
 .left, .right {
-    margin: 10px;
     clear: both;
     margin-left: 60px;
     text-align: justify;
