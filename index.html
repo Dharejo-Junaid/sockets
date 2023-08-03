@@ -3,29 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <script src="socket.io/socket.io.js"></script>
     <title>Sockets</title>
 </head>
 <body>
     <h1 style="text-align: center;">Chat app</h1>
 
-    <input type="text" id="msg">
-    <button id="sendBtn">Send Message</button>
+    <h2 id="name"></h2>
+
+    <div class="input-container">
+        <input type="text" id="msg">
+        <button id="sendBtn">Send</button>
+    </div>
 
     <div id="messages"></div>
 
     <script>
-        
-        const socket = io();
 
+        const nameH2 = document.getElementById("name");
         const msg = document.getElementById("msg");
         const sendBtn = document.getElementById("sendBtn");
         const messages = document.getElementById("messages");
+        
+        const name = prompt("Enter your name please...");
+        nameH2.innerText = name;
+
+        const socket = io();
+
+        socket.emit("join", name);
 
         sendBtn.addEventListener("click", () => {
             const text = msg.value;
             const p = document.createElement("p");
-            p.innerText = `Junaid : ${text}`;
+            p.classList.add("left");
+            p.innerText = `You : ${text}`;
             messages.appendChild(p);
             socket.emit("message", text);
         });
@@ -33,7 +45,8 @@
         socket.on("messageBack", (msg) => {
             console.log("Server msg = ", msg);
             const p = document.createElement("p");
-            p.innerText = `Server : ${msg}`;
+            p.classList.add("right");
+            p.innerText = msg;
             messages.appendChild(p);
         });
 

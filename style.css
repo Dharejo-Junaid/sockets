@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+.input-container {
+    display: flex;
+}
+
+.input-container input {
+    width: 50%;
+}
+
+.input-container input, 
+.input-container button {
+    font-size: large;
+    padding: 5px;
+    margin: 10px;
+}
+
+#messages {
+    margin: 20px;
+    padding: 20px;
+    font-size: large;
+    font-family: "JetBrains Mono";
+}
+
+.left {
+    float: left;
+    clear: both;
+}
+
+.right {
+    float: right;
+    clear: both;
+}

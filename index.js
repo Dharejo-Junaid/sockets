@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
 
+let users = {};
+
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+
+app.use(express.static("."));
 
 app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
@@ -11,10 +15,15 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log("User is connected");
 
+  socket.on("join", name => {
+    if(!name) name = "unknown";
+    users[socket.id] = name;
+    socket.broadcast.emit("messageBack", `${name} joined the chat`);
+  });
+
   socket.on("message", msg => {
     console.log("User msg = ", msg);
-
-    socket.emit("messageBack", "Hi I am server.");
+    socket.broadcast.emit("messageBack", `${users[socket.id]} : ${msg}`);
   });
 });
 
