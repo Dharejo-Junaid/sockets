@@ -1,30 +1,23 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const http = require('http').Server(app);
 
-const io = require("socket.io")(http);
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 
 app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
-})
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-
-  // console.log(socket);
-
-  socket.emit("serverMsg", "Hey I am server");
-
-  socket.on("name", (name) => {
-    console.log(name);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("a user disconnected");
-  });
-
 });
 
-http.listen(3000, () => {
-  console.log('listening on port : 3000');
+io.on("connection", (socket) => {
+  console.log("User is connected");
+
+  socket.on("message", msg => {
+    console.log("User msg = ", msg);
+
+    socket.emit("messageBack", "Hi I am server.");
+  });
+});
+
+server.listen(5000, () => {
+  console.log("server is listening at port : 5000");
 });

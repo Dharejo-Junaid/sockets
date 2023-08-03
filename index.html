@@ -9,16 +9,35 @@
 <body>
     <h1 style="text-align: center;">Chat app</h1>
 
-    <script>
-        const socket = io();
-        
-        setTimeout((data) => {
-            socket.emit("name", data);
-        }, 3000, "Golu");
+    <input type="text" id="msg">
+    <button id="sendBtn">Send Message</button>
 
-        socket.on("serverMsg", (msg) => {
-            console.log(msg);
-        })
+    <div id="messages"></div>
+
+    <script>
+        
+        const socket = io();
+
+        const msg = document.getElementById("msg");
+        const sendBtn = document.getElementById("sendBtn");
+        const messages = document.getElementById("messages");
+
+        sendBtn.addEventListener("click", () => {
+            const text = msg.value;
+            const p = document.createElement("p");
+            p.innerText = `Junaid : ${text}`;
+            messages.appendChild(p);
+            socket.emit("message", text);
+        });
+
+        socket.on("messageBack", (msg) => {
+            console.log("Server msg = ", msg);
+            const p = document.createElement("p");
+            p.innerText = `Server : ${msg}`;
+            messages.appendChild(p);
+        });
+
+        
     </script>
 
 
