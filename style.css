@@ -1,7 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 
+body {
+    margin: 0;
+}
+
+#name {
+    text-align: center;
+}
+
 .input-container {
     display: flex;
+    justify-content: center;
 }
 
 .input-container input {
@@ -24,10 +33,15 @@
 
 .left {
     float: left;
-    clear: both;
 }
 
 .right {
     float: right;
+}
+
+.left, .right {
+    margin: 10px;
     clear: both;
+    margin-left: 60px;
+    text-align: justify;
 }

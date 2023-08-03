@@ -13,7 +13,7 @@
     <h2 id="name"></h2>
 
     <div class="input-container">
-        <input type="text" id="msg">
+        <input type="text" id="msg" required>
         <button id="sendBtn">Send</button>
     </div>
 
@@ -32,28 +32,35 @@
         const socket = io();
 
         socket.emit("join", name);
-
-        sendBtn.addEventListener("click", () => {
-            const text = msg.value;
+        
+        const showContent = (msg, alignment) => {
             const p = document.createElement("p");
-            p.classList.add("left");
-            p.innerText = `You : ${text}`;
+            p.classList.add(alignment);
+            p.innerText = msg;
             messages.appendChild(p);
+        }
+        
+        const sendMessage = () => {
+            const text = msg.value;
+            msg.value = "";
+            showContent(`You : ${text}`, "left");
             socket.emit("message", text);
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        msg.addEventListener("keyup", ({key}) => {
+            if(key=="Enter") {
+                sendMessage();
+            }
         });
 
         socket.on("messageBack", (msg) => {
-            console.log("Server msg = ", msg);
-            const p = document.createElement("p");
-            p.classList.add("right");
-            p.innerText = msg;
-            messages.appendChild(p);
+            showContent(msg, "right");
         });
 
-        
+        socket.on("logout", (msg) => {
+            showContent(msg, "right");
+        });
     </script>
-
-
-
 </body>
 </html>
