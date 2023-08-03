@@ -13,7 +13,6 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("User is connected");
 
   socket.on("join", name => {
     users[socket.id] = name;
@@ -21,7 +20,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message", msg => {
-    console.log("User msg = ", msg);
     socket.broadcast.emit("messageBack", `${users[socket.id]} : ${msg}`);
   });
 
